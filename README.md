@@ -1,42 +1,27 @@
-# Refactoring Kata Test
+Voici ce que j'ai suivi comme règles pour le refacto :
 
-## Introduction
+- nommer les variable camelCase (j'ai renommé certaines variables qui commençaient par des underscores)
+- tester les cas d'erreur au plus tôt, avec notamment des if en début de fonction
+- respecter le principe SRP Single Responsability Principle
+- J'ai déplacé le remplacement des 'token' dans différentes petites classes qui héritent toute d'une classe abstraite afin que dans le code appelant on ai tojours les mêmes fonctions à appeler
+- une classe abstraite et pas une interface, car j'ai mis toute la logique commune dans cette classe (replacement avec str_replace)
+- lister l'ensemble des classes 'token' dans une constante, afin d'obtenir une programmation par donnée (la boucle foreach dans TemplateManager)
 
-Let's say we are a company specialized in merchandise transport in different countries, and we have some message templates we want to send
-in different languages. To do that, we've developed `TemplateManager` whose job is to replace
-placeholders in texts by travel related information.
 
-`TemplateManager` is a class that's been around for years and nobody really knows who coded
-it or how it really works. Nonetheless, as the business changes frequently, this class has
-already been modified many times, making it harder to understand at each step.
+Ce que j'aurai aimé faire en plus :
 
-Today, once again, the PO wants to add some new stuff to it and add the management for a new
-placeholder. But this class is already complex enough and just adding a new behaviour to it
-won't work this time.
+- Faire une classe pour le token user
+- Sortir la liste des tokens et soit :
+- La mettre dans une autre classe (par ex. TokenList)
+- utiliser l'injection de dépendance de Symfony et notament !@tag pour obtenir l'ensemble des classes qui hérite de TemplateToken
+- J'ai tout mis dans Helper, mais un dossier Token aurai plus aviser
+- Créer une classe qui se charge de vérifier que les données reçues en tableau soient transformé en objet et effectue les tests qui sont faits dans TemplateManager::computeText (Notamment les tests sur $data['quote'])
+- Ensuite j'aurai aimé ajouter plus de typage fort pour éliminer les tests 'instanceof', et aussi sur les retours de fonction
 
-Your mission, should you decide to accept it, is to **refactor `TemplateManager` to make it
-understandable by the next developer** and easy to change afterwards. Now is the time for you to
-show your exceptional skills and make this implementation better, extensible, and ready for future
-features.
 
-Sadly for you, the public method `TemplateManager::getTemplateComputed` is called everywhere, 
-and **you can't change its signature**. But that's the only one you can't modify (unless explicitly
-forbidden in a code comment), **every other class is ready for your changes**.
+Avantage de la solution :
+- l'ajout d'un nouveau comportement est très simple : une classe à ajouter et à mettre dans une liste (sauf si on utilise l'injection de Symfony)
 
-This exercise **was made to not last longer than 1 hour** but we know that this can be too short to do it all and
-you might take longer if you want. Stop when you feel you've done something you feel comfortable sharing with us.
 
-You can run the example file to see the method in action.
-
-## Rules
-There are some rules to follow:
- - You must commit regularly
- - You must not modify code when comments explicitly forbid it
-
-## Deliverables
-What do we expect from you:
- - the link of the git repository
- - several commits, with an explicit message each time
- - a file / message / email explaining your process and principles you've followed
-
-**Good luck!**
+Incovénient :
+- Ne permet pas l'ajout de nouveau comportement qui nécessiterait d'autre donnée dans la méthode 'process'
