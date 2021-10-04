@@ -11,6 +11,11 @@ require_once __DIR__ . '/../src/Repository/Repository.php';
 require_once __DIR__ . '/../src/Repository/DestinationRepository.php';
 require_once __DIR__ . '/../src/Repository/QuoteRepository.php';
 require_once __DIR__ . '/../src/Repository/SiteRepository.php';
+require_once __DIR__ . '/../src/Helper/TemplateToken.php';
+require_once __DIR__ . '/../src/Helper/SummaryHTMLToken.php';
+require_once __DIR__ . '/../src/Helper/SummaryTokenToken.php';
+require_once __DIR__ . '/../src/Helper/DestinationLinkToken.php';
+require_once __DIR__ . '/../src/Helper/DestinationNameToken.php';
 require_once __DIR__ . '/../src/TemplateManager.php';
 
 class TemplateManagerTest extends PHPUnit_Framework_TestCase
