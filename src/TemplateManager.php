@@ -51,13 +51,17 @@ class TemplateManager
                 }
             }
 
-            (strpos($text, '[quote:destination_name]') !== false) and $text = str_replace('[quote:destination_name]',$destinationOfQuote->countryName,$text);
+            if(strpos($text, '[quote:destination_name]') !== false){
+                $text = str_replace('[quote:destination_name]',$destinationOfQuote->countryName,$text);
+            }
         }
 
-        if (isset($destination))
+        if (isset($destination)) {
             $text = str_replace('[quote:destination_link]', $usefulObject->url . '/' . $destination->countryName . '/quote/' . $_quoteFromRepository->id, $text);
-        else
+        }
+        else {
             $text = str_replace('[quote:destination_link]', '', $text);
+        }
 
         /*
          * USER
@@ -65,7 +69,9 @@ class TemplateManager
          */
         $_user  = (isset($data['user'])  and ($data['user']  instanceof User))  ? $data['user']  : $APPLICATION_CONTEXT->getCurrentUser();
         if($_user) {
-            (strpos($text, '[user:first_name]') !== false) and $text = str_replace('[user:first_name]'       , ucfirst(mb_strtolower($_user->firstname)), $text);
+            if(strpos($text, '[user:first_name]') !== false){
+                $text = str_replace('[user:first_name]', ucfirst(mb_strtolower($_user->firstname)), $text);
+            }
         }
 
         return $text;
